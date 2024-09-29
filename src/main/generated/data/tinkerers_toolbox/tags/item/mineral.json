@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#minecraft:coals",
+      "required": false
+    },
+    {
+      "id": "#minecraft:trim_materials",
+      "required": false
+    }
+  ]
+}

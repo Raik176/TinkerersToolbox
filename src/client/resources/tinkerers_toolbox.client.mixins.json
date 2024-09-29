@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "org.rhm.tinkerers_toolbox.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "ItemRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
