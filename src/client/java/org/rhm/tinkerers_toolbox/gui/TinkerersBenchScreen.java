@@ -69,6 +69,7 @@ public class TinkerersBenchScreen extends HandledScreen<TinkerersBenchScreenHand
     @Override
     protected void drawMouseoverTooltip(DrawContext context, int x, int y) {
         super.drawMouseoverTooltip(context, x, y);
+        /*
         if (this.focusedSlot != null && !this.focusedSlot.hasStack()) {
             if (this.focusedSlot == handler.getToolSlot()) {
                 context.drawTooltip(this.textRenderer, Text.translatable(TOOL_PLACEHOLDER_KEY), x, y);
@@ -76,6 +77,7 @@ public class TinkerersBenchScreen extends HandledScreen<TinkerersBenchScreenHand
                 context.drawTooltip(this.textRenderer, Text.translatable(MINERAL_PLACEHOLDER_KEY), x, y);
             }
         }
+         */
     }
 
     @Override

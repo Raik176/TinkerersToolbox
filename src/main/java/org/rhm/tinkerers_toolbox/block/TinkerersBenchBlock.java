@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.ActionResult;
@@ -40,7 +41,7 @@ public class TinkerersBenchBlock extends Block {
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient) {
             NamedScreenHandlerFactory factory = new SimpleNamedScreenHandlerFactory(
-                    (syncId, inventory, p) -> new TinkerersBenchScreenHandler(syncId, inventory, pos),
+                    (syncId, inventory, p) -> new TinkerersBenchScreenHandler(syncId, inventory, ScreenHandlerContext.create(world,pos)),
                     getName()
             );
             player.openHandledScreen(factory);

@@ -17,6 +17,7 @@ import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import org.rhm.tinkerers_toolbox.block.ModBlocks;
+import org.rhm.tinkerers_toolbox.item.ModItems;
 
 import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
@@ -36,6 +37,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         private static final RegistryKey<Registry<Item>> ITEM_REGISTRY = RegistryKey.ofRegistry(Identifier.of("item"));
 
         public static final TagKey<Item> MINERAL_TAG = createTag("mineral");
+        public static final TagKey<Item> PATTERN_TAG = createTag("tinker_pattern");
 
         public TagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
             super(output, ITEM_REGISTRY, registriesFuture);
@@ -50,6 +52,8 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
             getOrCreateTagBuilder(MINERAL_TAG)
                     .addOptionalTag(ItemTags.COALS)
                     .addOptionalTag(ItemTags.TRIM_MATERIALS);
+            getOrCreateTagBuilder(PATTERN_TAG)
+                    .add(ModItems.TEST_TEMPLATE);
         }
     }
 
