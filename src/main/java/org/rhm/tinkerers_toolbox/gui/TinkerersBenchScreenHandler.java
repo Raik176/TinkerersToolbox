@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
+import org.rhm.tinkerers_toolbox.ModDataGenerator;
 
 public class TinkerersBenchScreenHandler extends ScreenHandler {
     private final ScreenHandlerContext context;
@@ -58,7 +59,12 @@ public class TinkerersBenchScreenHandler extends ScreenHandler {
                 return stack.streamTags().anyMatch((tag) -> tag.id().getPath().equals("mineral"));
             }
         };
-        patternSlot = new Slot(inventory, 2, 46, 50);
+        patternSlot = new Slot(inventory, 2, 46, 50) {
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return stack.streamTags().anyMatch((tag) -> tag == ModDataGenerator.TagProvider.PATTERN_TAG);
+            }
+        };
         recycleSlot = new Slot(inventory, 4, 134, 55) {
             @Override
             public boolean canInsert(ItemStack stack) {
