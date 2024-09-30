@@ -81,6 +81,8 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         @Override
         public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
             translationBuilder.add(ModBlocks.TINKERERS_BENCH, "Tinkerer's Bench");
+            translationBuilder.add(TagProvider.MINERAL_TAG, "Mineral");
+            translationBuilder.add(TagProvider.PATTERN_TAG, "Pattern");
 
             try {
                 Path existingFilePath = dataOutput.getModContainer().findPath("assets/" + ModMain.MOD_ID + "/lang/en_us.existing.json").get();

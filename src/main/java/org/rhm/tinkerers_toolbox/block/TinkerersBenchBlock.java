@@ -41,7 +41,7 @@ public class TinkerersBenchBlock extends Block {
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient) {
             NamedScreenHandlerFactory factory = new SimpleNamedScreenHandlerFactory(
-                    (syncId, inventory, p) -> new TinkerersBenchScreenHandler(syncId, inventory, ScreenHandlerContext.create(world,pos)),
+                    (syncId, inventory, p) -> new TinkerersBenchScreenHandler(syncId, inventory, ScreenHandlerContext.create(world, pos)),
                     getName()
             );
             player.openHandledScreen(factory);

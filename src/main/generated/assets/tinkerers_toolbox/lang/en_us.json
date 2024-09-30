@@ -2,6 +2,7 @@
   "block.tinkerers_toolbox.tinkerers_bench": "Tinkerer's Bench",
   "itemGroup.tinkerers_toolbox": "Tinkerer's Toolbox",
   "tag.item.tinkerers_toolbox.mineral": "Mineral",
+  "tag.item.tinkerers_toolbox.tinker_pattern": "Pattern",
   "tinkerers_toolbox.gui.mineral_placeholder": "Any Mineral",
   "tinkerers_toolbox.gui.tool_placeholder": "Any Tool"
 }

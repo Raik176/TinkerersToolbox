@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolItem;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
@@ -39,7 +40,8 @@ public class TinkerersBenchScreenHandler extends ScreenHandler {
         toolSlot = new Slot(inventory, 1, 67, 36) {
             @Override
             public boolean canInsert(ItemStack stack) {
-                return stack.streamTags().anyMatch((tag) -> tag.id().getPath().equals("tools"));
+                return stack.getItem() instanceof ToolItem;
+                //return stack.streamTags().anyMatch((tag) -> tag.id().getPath().equals("tools"));
             }
         };
         outputSlot = new Slot(inventory, 3, 117, 36) {
@@ -47,6 +49,7 @@ public class TinkerersBenchScreenHandler extends ScreenHandler {
             public boolean canInsert(ItemStack stack) {
                 return false;
             }
+
             @Override
             public void onTakeItem(PlayerEntity player, ItemStack stack) {
                 super.onTakeItem(player, stack);
@@ -91,9 +94,11 @@ public class TinkerersBenchScreenHandler extends ScreenHandler {
     public Slot getToolSlot() {
         return toolSlot;
     }
+
     public Slot getMineralSlot() {
         return mineralSlot;
     }
+
     public Slot getPatternSlot() {
         return patternSlot;
     }
@@ -101,6 +106,7 @@ public class TinkerersBenchScreenHandler extends ScreenHandler {
     @Override
     public ItemStack quickMove(PlayerEntity player, int invSlot) {
         ItemStack newStack = ItemStack.EMPTY;
+
         Slot slot = this.slots.get(invSlot);
         if (slot.hasStack()) {
             ItemStack originalStack = slot.getStack();
@@ -128,16 +134,21 @@ public class TinkerersBenchScreenHandler extends ScreenHandler {
         toolSlot.takeStack(1);
         outputSlot.takeStack(1);
     }
+
     @Override
     public void onContentChanged(Inventory inventory) {
         if (context != null) {
             context.run((world, blockPos) -> {
-                if (mineralSlot.hasStack() && toolSlot.hasStack() && !outputSlot.hasStack()) {
+                if (mineralSlot.hasStack() && toolSlot.hasStack() && patternSlot.hasStack() && !outputSlot.hasStack()) {
                     ItemStack tool = toolSlot.getStack();
                     ItemStack mineral = mineralSlot.getStack();
+                    ItemStack pattern = patternSlot.getStack();
                     ItemStack result = tool.copy();
 
-                   // result.set(ModComponents.TEST_COMPONENT, Registries.ITEM.getId(mineral.getItem()).toString());
+                    //yummy hardcoding
+
+
+                    // result.set(ModComponents.TEST_COMPONENT, Registries.ITEM.getId(mineral.getItem()).toString());
 
                     outputSlot.setStack(result);
                 }
@@ -164,9 +175,9 @@ public class TinkerersBenchScreenHandler extends ScreenHandler {
     public void onClosed(PlayerEntity player) {
         super.onClosed(player);
 
-        for (int i = 0; i < inventory.size()-2; i++) {
+        for (int i = 0; i < inventory.size() - 2; i++) {
             ItemStack stack = inventory.getStack(i);
-            if (stack != null) player.dropItem(stack, true);
+            if (!player.giveItemStack(stack)) player.dropItem(stack, false);
         }
     }
 }

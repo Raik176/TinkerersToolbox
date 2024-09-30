@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class ModItems {
     private static final List<Item> modItems = new ArrayList<>();
 
-    public static final Item TEST_TEMPLATE  = register(
+    public static final Item TEST_TEMPLATE = register(
             new Item(new Item.Settings()),
             "test_template"
     );

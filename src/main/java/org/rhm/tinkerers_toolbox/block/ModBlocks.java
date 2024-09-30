@@ -19,7 +19,7 @@ public class ModBlocks {
     public static Block register(Block block, String name, boolean shouldRegisterItem) {
         Identifier id = Identifier.of(ModMain.MOD_ID, name);
 
-        if (shouldRegisterItem) ModItems.register(new BlockItem(block, new Item.Settings()),name);
+        if (shouldRegisterItem) ModItems.register(new BlockItem(block, new Item.Settings()), name);
 
         return Registry.register(Registries.BLOCK, id, block);
     }
