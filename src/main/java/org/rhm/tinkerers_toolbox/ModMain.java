@@ -21,7 +21,10 @@ public class ModMain implements ModInitializer {
     public static final String MOD_ID = "tinkerers_toolbox";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
     public static final RegistryKey<ItemGroup> ITEM_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(MOD_ID, "item_group"));
-    public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(ModBlocks.TINKERERS_BENCH)).displayName(Text.translatable("itemGroup." + MOD_ID)).build();
+    public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder()
+            .icon(() -> new ItemStack(ModBlocks.TINKERERS_BENCH))
+            .displayName(Text.translatable(MOD_ID + ".itemGroup"))
+            .build();
 
     @Override
     public void onInitialize() {

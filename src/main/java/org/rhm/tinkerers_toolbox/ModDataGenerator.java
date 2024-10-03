@@ -43,11 +43,14 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         //Languages
         pack.addProvider((dataOutput, registryLookup) -> new LanguageProvider(dataOutput, "en_us", registryLookup) {
             @Override
-            public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
-                super.generateTranslations(wrapperLookup, translationBuilder);
-                translationBuilder.add(ModBlocks.TINKERERS_BENCH, "Tinkerer's Bench");
-                translationBuilder.add(ItemTagProvider.MINERAL_TAG, "Mineral");
-                translationBuilder.add(ItemTagProvider.PATTERN_TAG, "Tinker Pattern");
+            public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder builder) {
+                super.generateTranslations(wrapperLookup, builder);
+                builder.add(ModBlocks.TINKERERS_BENCH, "Tinkerer's Bench");
+                builder.add(ItemTagProvider.MINERAL_TAG, "Mineral");
+                builder.add(ItemTagProvider.PATTERN_TAG, "Tinker Pattern");
+                builder.add(ModMain.MOD_ID + ".itemGroup", "Tinker's Toolbox");
+                builder.add(ModMain.MOD_ID + ".gui.tool_placeholder", "Any Tool");
+                builder.add(ModMain.MOD_ID + ".gui.mineral_placeholder", "Any Mineral");
             }
         });
     }
@@ -151,11 +154,11 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         }
 
         @Override
-        public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
+        public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder builder) {
             Optional<Path> path = dataOutput.getModContainer().findPath("assets/" + ModMain.MOD_ID + "/lang/" + LANGUAGE_CODE + ".existing.json");
             if (path.isPresent()) {
                 try {
-                    translationBuilder.add(path.get());
+                    builder.add(path.get());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
