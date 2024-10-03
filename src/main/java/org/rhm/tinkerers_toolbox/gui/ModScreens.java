@@ -10,13 +10,15 @@ import org.rhm.tinkerers_toolbox.ModMain;
 public class ModScreens {
     public static <T extends ScreenHandlerType<?>> T register(T type, String name) {
         return Registry.register(Registries.SCREEN_HANDLER, Identifier.of(ModMain.MOD_ID, name), type);
-    }    public static final ScreenHandlerType<TinkerersBenchScreenHandler> TINKERERS_BENCH = register(
-            new ScreenHandlerType<>(TinkerersBenchScreenHandler::new, FeatureFlags.VANILLA_FEATURES),
-            "tinkerers_bench"
-    );
+    }
 
     public static void initialize() {
     }
+
+    public static final ScreenHandlerType<TinkerersBenchScreenHandler> TINKERERS_BENCH = register(
+            new ScreenHandlerType<>(TinkerersBenchScreenHandler::new, FeatureFlags.VANILLA_FEATURES),
+            "tinkerers_bench"
+    );
 
 
 }

@@ -19,6 +19,7 @@ public class TinkerersBenchBlock extends Block {
                 .sounds(BlockSoundGroup.METAL)
                 .mapColor(MapColor.DEEPSLATE_GRAY)
                 .resistance(2)
+                .hardness(3)
                 .solid()
         );
     }
@@ -48,4 +49,6 @@ public class TinkerersBenchBlock extends Block {
         }
         return ActionResult.SUCCESS;
     }
+
+
 }

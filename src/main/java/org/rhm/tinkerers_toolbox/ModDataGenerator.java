@@ -3,23 +3,29 @@ package org.rhm.tinkerers_toolbox;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.provider.*;
+import net.minecraft.block.Block;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
+import net.minecraft.data.server.recipe.RecipeExporter;
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
+import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import org.rhm.tinkerers_toolbox.block.ModBlocks;
 import org.rhm.tinkerers_toolbox.item.ModItems;
+import org.rhm.tinkerers_toolbox.item.PatternItem;
 
+import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class ModDataGenerator implements DataGeneratorEntrypoint {
@@ -27,19 +33,81 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
         pack.addProvider(ModelProvider::new);
-        pack.addProvider(LanguageProvider::new);
         pack.addProvider(LootTableProvider::new);
-        pack.addProvider(TagProvider::new);
+        pack.addProvider(RecipeProvider::new);
+
+        //Tags
+        pack.addProvider(ItemTagProvider::new);
+        pack.addProvider(BlockTagProvider::new);
+
+        //Languages
+        pack.addProvider((dataOutput, registryLookup) -> new LanguageProvider(dataOutput, "en_us", registryLookup) {
+            @Override
+            public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
+                super.generateTranslations(wrapperLookup, translationBuilder);
+                translationBuilder.add(ModBlocks.TINKERERS_BENCH, "Tinkerer's Bench");
+                translationBuilder.add(ItemTagProvider.MINERAL_TAG, "Mineral");
+                translationBuilder.add(ItemTagProvider.PATTERN_TAG, "Tinker Pattern");
+            }
+        });
     }
 
 
-    public static class TagProvider extends FabricTagProvider<Item> {
+    public static class RecipeProvider extends FabricRecipeProvider {
+        public RecipeProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+            super(output, registriesFuture);
+        }
+
+        @Override
+        public void generate(RecipeExporter exporter) {
+            ModItems.getItems().stream().filter(i -> i instanceof PatternItem)
+                    .forEach(i -> ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, i)
+                            .pattern("AAA").pattern(" B ").pattern("CDC")
+                            .input('A', Items.STICK).input('B', Items.FLINT)
+                            .input('C', Items.IRON_INGOT).input('D', Items.OBSIDIAN)
+                            .criterion(FabricRecipeProvider.hasItem(Items.OBSIDIAN),
+                                    FabricRecipeProvider.conditionsFromItem(Items.OBSIDIAN))
+                            .offerTo(exporter));
+            ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.TINKERERS_BENCH)
+                    .pattern("AAA").pattern("BCB").pattern("DED")
+                    .input('A', ItemTags.PLANKS).input('B', Items.OBSIDIAN)
+                    .input('C', Items.CRAFTING_TABLE).input('D', ItemTags.STONE_BRICKS)
+                    .input('E', Items.GOLD_INGOT)
+                    .criterion(FabricRecipeProvider.hasItem(Items.OBSIDIAN),
+                            FabricRecipeProvider.conditionsFromItem(Items.OBSIDIAN))
+                    .offerTo(exporter);
+        }
+    }
+
+    public static class BlockTagProvider extends FabricTagProvider<Block> {
+        private static final RegistryKey<Registry<Block>> BLOCK_REGISTRY = RegistryKey.ofRegistry(Identifier.of("block"));
+
+        public BlockTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+            super(output, BLOCK_REGISTRY, registriesFuture);
+        }
+
+        protected static TagKey<Block> createTag(String name) {
+            return TagKey.of(BLOCK_REGISTRY, Identifier.of(ModMain.MOD_ID, name));
+        }
+
+        @Override
+        protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+            getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
+                    .add(ModBlocks.TINKERERS_BENCH)
+                    .setReplace(false);
+            getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL)
+                    .add(ModBlocks.TINKERERS_BENCH)
+                    .setReplace(false);
+        }
+    }
+
+    public static class ItemTagProvider extends FabricTagProvider<Item> {
         private static final RegistryKey<Registry<Item>> ITEM_REGISTRY = RegistryKey.ofRegistry(Identifier.of("item"));
 
         public static final TagKey<Item> MINERAL_TAG = createTag("mineral");
         public static final TagKey<Item> PATTERN_TAG = createTag("tinker_pattern");
 
-        public TagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+        public ItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
             super(output, ITEM_REGISTRY, registriesFuture);
         }
 
@@ -51,7 +119,8 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
             getOrCreateTagBuilder(MINERAL_TAG)
                     .addOptionalTag(ItemTags.COALS)
-                    .addOptionalTag(ItemTags.TRIM_MATERIALS);
+                    .addOptionalTag(ItemTags.TRIM_MATERIALS)
+                    .add(Items.COPPER_INGOT);
             getOrCreateTagBuilder(PATTERN_TAG)
                     .add(ModItems.TEST_TEMPLATE);
         }
@@ -73,22 +142,23 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         }
     }
 
-    private static class LanguageProvider extends FabricLanguageProvider {
-        protected LanguageProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
-            super(dataOutput, "en_us", registryLookup);
+    private abstract static class LanguageProvider extends FabricLanguageProvider {
+        public final String LANGUAGE_CODE;
+
+        protected LanguageProvider(FabricDataOutput dataOutput, String language, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+            super(dataOutput, language, registryLookup);
+            LANGUAGE_CODE = language;
         }
 
         @Override
         public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
-            translationBuilder.add(ModBlocks.TINKERERS_BENCH, "Tinkerer's Bench");
-            translationBuilder.add(TagProvider.MINERAL_TAG, "Mineral");
-            translationBuilder.add(TagProvider.PATTERN_TAG, "Pattern");
-
-            try {
-                Path existingFilePath = dataOutput.getModContainer().findPath("assets/" + ModMain.MOD_ID + "/lang/en_us.existing.json").get();
-                translationBuilder.add(existingFilePath);
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to add existing language file!", e);
+            Optional<Path> path = dataOutput.getModContainer().findPath("assets/" + ModMain.MOD_ID + "/lang/" + LANGUAGE_CODE + ".existing.json");
+            if (path.isPresent()) {
+                try {
+                    translationBuilder.add(path.get());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

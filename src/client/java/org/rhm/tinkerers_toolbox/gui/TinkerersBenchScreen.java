@@ -13,6 +13,7 @@ public class TinkerersBenchScreen extends HandledScreen<TinkerersBenchScreenHand
     public static final String MINERAL_PLACEHOLDER_KEY = ModMain.MOD_ID + ".gui.mineral_placeholder";
 
     private static final Identifier TEXTURE = Identifier.of(ModMain.MOD_ID, "textures/gui/tinkerers_bench_gui.png");
+    private static final Identifier RECYCLE_TEXTURE = Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_recycle");
     private static final Identifier[] TOOL_CAROUSEL = new Identifier[]{
             Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_sword"),
             Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_pickaxe"),
@@ -43,6 +44,7 @@ public class TinkerersBenchScreen extends HandledScreen<TinkerersBenchScreenHand
 
         Slot toolSlot = handler.getToolSlot();
         Slot mineralSlot = handler.getMineralSlot();
+        Slot recycleSlot = handler.getRecycleSlot();
         if (!toolSlot.hasStack()) {
             context.drawGuiTexture(TOOL_CAROUSEL[tool_carousel_index], x + toolSlot.x, y + toolSlot.y, 16, 16);
 
@@ -63,6 +65,10 @@ public class TinkerersBenchScreen extends HandledScreen<TinkerersBenchScreenHand
                 mineral_carousel_index++;
                 if (mineral_carousel_index > MINERAL_CAROUSEL.length - 1) mineral_carousel_index = 0;
             }
+        }
+
+        if (!recycleSlot.hasStack()) {
+            context.drawGuiTexture(RECYCLE_TEXTURE, x + recycleSlot.x, y + recycleSlot.y, 16, 16);
         }
     }
 

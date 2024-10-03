@@ -8,16 +8,21 @@ import net.minecraft.util.Identifier;
 import org.rhm.tinkerers_toolbox.ModMain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ModItems {
-    private static final List<Item> modItems = new ArrayList<>();
+    private static List<Item> modItems = new ArrayList<>();
 
     public static final Item TEST_TEMPLATE = register(
-            new Item(new Item.Settings()),
+            new PatternItem(new Item.Settings()),
             "test_template"
     );
+
+    public static List<Item> getItems() {
+        return modItems;
+    }
 
     public static Item register(Item item, String name) {
         modItems.add(item);
@@ -25,8 +30,8 @@ public class ModItems {
     }
 
     public static void initialize() { // Im lazy
-        ItemGroupEvents.modifyEntriesEvent(ModMain.ITEM_GROUP_KEY).register(itemGroup -> {
-            itemGroup.addAll(modItems.stream().map(Item::getDefaultStack).collect(Collectors.toList()));
-        });
+        modItems = Collections.unmodifiableList(modItems);
+        ItemGroupEvents.modifyEntriesEvent(ModMain.ITEM_GROUP_KEY).register(itemGroup ->
+                itemGroup.addAll(modItems.stream().map(Item::getDefaultStack).collect(Collectors.toList())));
     }
 }

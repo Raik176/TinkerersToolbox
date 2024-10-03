@@ -37,11 +37,23 @@ public class TinkerersBenchScreenHandler extends ScreenHandler {
 
         playerInventory.onOpen(playerInventory.player);
 
+        mineralSlot = new Slot(inventory, 0, 46, 23) {
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return stack.streamTags().anyMatch((tag) -> tag.id().getPath().equals("mineral"));
+            }
+        };
         toolSlot = new Slot(inventory, 1, 67, 36) {
             @Override
             public boolean canInsert(ItemStack stack) {
                 return stack.getItem() instanceof ToolItem;
                 //return stack.streamTags().anyMatch((tag) -> tag.id().getPath().equals("tools"));
+            }
+        };
+        patternSlot = new Slot(inventory, 2, 46, 50) {
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return stack.streamTags().anyMatch((tag) -> tag == ModDataGenerator.ItemTagProvider.PATTERN_TAG);
             }
         };
         outputSlot = new Slot(inventory, 3, 117, 36) {
@@ -54,18 +66,6 @@ public class TinkerersBenchScreenHandler extends ScreenHandler {
             public void onTakeItem(PlayerEntity player, ItemStack stack) {
                 super.onTakeItem(player, stack);
                 craftFinished();
-            }
-        };
-        mineralSlot = new Slot(inventory, 0, 46, 23) {
-            @Override
-            public boolean canInsert(ItemStack stack) {
-                return stack.streamTags().anyMatch((tag) -> tag.id().getPath().equals("mineral"));
-            }
-        };
-        patternSlot = new Slot(inventory, 2, 46, 50) {
-            @Override
-            public boolean canInsert(ItemStack stack) {
-                return stack.streamTags().anyMatch((tag) -> tag == ModDataGenerator.TagProvider.PATTERN_TAG);
             }
         };
         recycleSlot = new Slot(inventory, 4, 134, 55) {
@@ -101,6 +101,10 @@ public class TinkerersBenchScreenHandler extends ScreenHandler {
 
     public Slot getPatternSlot() {
         return patternSlot;
+    }
+
+    public Slot getRecycleSlot() {
+        return recycleSlot;
     }
 
     @Override
@@ -141,14 +145,9 @@ public class TinkerersBenchScreenHandler extends ScreenHandler {
             context.run((world, blockPos) -> {
                 if (mineralSlot.hasStack() && toolSlot.hasStack() && patternSlot.hasStack() && !outputSlot.hasStack()) {
                     ItemStack tool = toolSlot.getStack();
-                    ItemStack mineral = mineralSlot.getStack();
-                    ItemStack pattern = patternSlot.getStack();
                     ItemStack result = tool.copy();
 
-                    //yummy hardcoding
-
-
-                    // result.set(ModComponents.TEST_COMPONENT, Registries.ITEM.getId(mineral.getItem()).toString());
+                    //TODO: implement
 
                     outputSlot.setStack(result);
                 }
