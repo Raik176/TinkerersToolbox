@@ -5,12 +5,16 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.*;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.loot.condition.MatchToolLootCondition;
+import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -33,7 +37,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
         pack.addProvider(ModelProvider::new);
-        pack.addProvider(LootTableProvider::new);
+        pack.addProvider(BlockLootTableProvider::new);
         pack.addProvider(RecipeProvider::new);
 
         //Tags
@@ -166,14 +170,25 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         }
     }
 
-    private static class LootTableProvider extends FabricBlockLootTableProvider {
-        protected LootTableProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    private static class BlockLootTableProvider extends FabricBlockLootTableProvider {
+        protected BlockLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
             super(dataOutput, registryLookup);
         }
 
         @Override
         public void generate() {
-            addDrop(ModBlocks.TINKERERS_BENCH, drops(ModBlocks.TINKERERS_BENCH));
+            /*
+            This looks really weird (and even more so when generated)
+            but it works (I think) so DON'T TOUCH IT
+             */
+            addDrop(ModBlocks.TINKERERS_BENCH, drops(ModBlocks.TINKERERS_BENCH,MatchToolLootCondition.builder(ItemPredicate.Builder
+                    .create()
+                    .items(
+                            Items.STONE_PICKAXE,
+                            Items.IRON_PICKAXE,
+                            Items.DIAMOND_PICKAXE,
+                            Items.NETHERITE_PICKAXE
+                    )), ItemEntry.builder(Blocks.AIR)));
         }
     }
 }

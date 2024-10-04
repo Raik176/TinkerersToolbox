@@ -22,6 +22,12 @@
     ],
     "fabric-datagen": [
       "org.rhm.tinkerers_toolbox.ModDataGenerator"
+    ],
+    "jade": [
+      "org.rhm.tinkerers_toolbox.ModJadePlugin"
+    ],
+    "jei_mod_plugin": [
+      "org.rhm.tinkerers_toolbox.ModJEIPlugin"
     ]
   },
   "mixins": [
