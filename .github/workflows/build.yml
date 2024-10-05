@@ -28,7 +28,7 @@ jobs:
                 with:
                     name: Artifacts
                     path: build/libs/
-            - uses: Shopify/upload-to-release@v1
+            - uses: Shopify/upload-to-release@v2.0.0
               with:
                   name: latest
                   path: build/libs/*.jar
