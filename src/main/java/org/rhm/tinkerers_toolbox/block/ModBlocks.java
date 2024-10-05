@@ -11,9 +11,9 @@ import org.rhm.tinkerers_toolbox.item.ModItems;
 
 public class ModBlocks {
     public static final Block TINKERERS_BENCH = register(
-            new TinkerersBenchBlock(),
-            "tinkerers_bench",
-            true
+        new TinkerersBenchBlock(),
+        "tinkerers_bench",
+        true
     );
 
     public static Block register(Block block, String name, boolean shouldRegisterItem) {

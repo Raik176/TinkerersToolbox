@@ -9,6 +9,6 @@ import org.jetbrains.annotations.NotNull;
 public class ModJEIPlugin implements IModPlugin {
     @Override
     public @NotNull Identifier getPluginUid() {
-        return Identifier.of(ModMain.MOD_ID,"jei_plugin");
+        return Identifier.of(ModMain.MOD_ID, "jei_plugin");
     }
 }

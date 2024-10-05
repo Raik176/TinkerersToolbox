@@ -3,10 +3,16 @@ package org.rhm.tinkerers_toolbox;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.*;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.data.client.*;
+import net.minecraft.data.client.BlockStateModelGenerator;
+import net.minecraft.data.client.ItemModelGenerator;
+import net.minecraft.data.client.Models;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.Item;
@@ -39,11 +45,11 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(BlockLootTableProvider::new);
         pack.addProvider(RecipeProvider::new);
 
-        //Tags
+        // Tags
         pack.addProvider(ItemTagProvider::new);
         pack.addProvider(BlockTagProvider::new);
 
-        //Languages
+        // Languages
         pack.addProvider((dataOutput, registryLookup) -> new LanguageProvider(dataOutput, "en_us", registryLookup) {
             @Override
             public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder builder) {
@@ -74,21 +80,21 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         @Override
         public void generate(RecipeExporter exporter) {
             ModItems.getItems().stream().filter(i -> i instanceof PatternItem)
-                    .forEach(i -> ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, i)
-                            .pattern("AAA").pattern(" B ").pattern("CDC")
-                            .input('A', Items.STICK).input('B', Items.FLINT)
-                            .input('C', Items.IRON_INGOT).input('D', Items.OBSIDIAN)
-                            .criterion(FabricRecipeProvider.hasItem(Items.OBSIDIAN),
-                                    FabricRecipeProvider.conditionsFromItem(Items.OBSIDIAN))
-                            .offerTo(exporter));
-            ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.TINKERERS_BENCH)
-                    .pattern("AAA").pattern("BCB").pattern("DED")
-                    .input('A', ItemTags.PLANKS).input('B', Items.OBSIDIAN)
-                    .input('C', Items.CRAFTING_TABLE).input('D', ItemTags.STONE_BRICKS)
-                    .input('E', Items.GOLD_INGOT)
+                .forEach(i -> ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, i)
+                    .pattern("AAA").pattern(" B ").pattern("CDC")
+                    .input('A', Items.STICK).input('B', Items.FLINT)
+                    .input('C', Items.IRON_INGOT).input('D', Items.OBSIDIAN)
                     .criterion(FabricRecipeProvider.hasItem(Items.OBSIDIAN),
-                            FabricRecipeProvider.conditionsFromItem(Items.OBSIDIAN))
-                    .offerTo(exporter);
+                        FabricRecipeProvider.conditionsFromItem(Items.OBSIDIAN))
+                    .offerTo(exporter));
+            ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.TINKERERS_BENCH)
+                .pattern("AAA").pattern("BCB").pattern("DED")
+                .input('A', ItemTags.PLANKS).input('B', Items.OBSIDIAN)
+                .input('C', Items.CRAFTING_TABLE).input('D', ItemTags.STONE_BRICKS)
+                .input('E', Items.GOLD_INGOT)
+                .criterion(FabricRecipeProvider.hasItem(Items.OBSIDIAN),
+                    FabricRecipeProvider.conditionsFromItem(Items.OBSIDIAN))
+                .offerTo(exporter);
         }
     }
 
@@ -106,11 +112,11 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         @Override
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
             getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
-                    .add(ModBlocks.TINKERERS_BENCH)
-                    .setReplace(false);
+                .add(ModBlocks.TINKERERS_BENCH)
+                .setReplace(false);
             getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL)
-                    .add(ModBlocks.TINKERERS_BENCH)
-                    .setReplace(false);
+                .add(ModBlocks.TINKERERS_BENCH)
+                .setReplace(false);
         }
     }
 
@@ -131,11 +137,11 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         @Override
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
             getOrCreateTagBuilder(MINERAL_TAG)
-                    .addOptionalTag(ItemTags.COALS)
-                    .addOptionalTag(ItemTags.TRIM_MATERIALS)
-                    .add(Items.COPPER_INGOT);
+                .addOptionalTag(ItemTags.COALS)
+                .addOptionalTag(ItemTags.TRIM_MATERIALS)
+                .add(Items.COPPER_INGOT);
             getOrCreateTagBuilder(PATTERN_TAG)
-                    .add(ModItems.SHAFT_PATTERN);
+                .add(ModItems.SHAFT_PATTERN);
         }
     }
 
@@ -146,14 +152,14 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
 
         @Override
         public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-           //blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.TINKERERS_BENCH);
+            // blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.TINKERERS_BENCH);
         }
 
         @Override
         public void generateItemModels(ItemModelGenerator itemModelGenerator) {
             ModItems.getItems() // im lazy yet again
-                    .stream().filter(i -> i instanceof PatternItem)
-                    .forEach(i -> itemModelGenerator.register(i, Models.GENERATED));
+                .stream().filter(i -> i instanceof PatternItem)
+                .forEach(i -> itemModelGenerator.register(i, Models.GENERATED));
         }
     }
 
@@ -189,14 +195,14 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
             This looks really weird (and even more so when generated)
             but it works (I think) so DON'T TOUCH IT
              */
-            addDrop(ModBlocks.TINKERERS_BENCH, drops(ModBlocks.TINKERERS_BENCH,MatchToolLootCondition.builder(ItemPredicate.Builder
-                    .create()
-                    .items(
-                            Items.STONE_PICKAXE,
-                            Items.IRON_PICKAXE,
-                            Items.DIAMOND_PICKAXE,
-                            Items.NETHERITE_PICKAXE
-                    )), ItemEntry.builder(Blocks.AIR)));
+            addDrop(ModBlocks.TINKERERS_BENCH, drops(ModBlocks.TINKERERS_BENCH, MatchToolLootCondition.builder(ItemPredicate.Builder
+                .create()
+                .items(
+                    Items.STONE_PICKAXE,
+                    Items.IRON_PICKAXE,
+                    Items.DIAMOND_PICKAXE,
+                    Items.NETHERITE_PICKAXE
+                )), ItemEntry.builder(Blocks.AIR)));
         }
     }
 }

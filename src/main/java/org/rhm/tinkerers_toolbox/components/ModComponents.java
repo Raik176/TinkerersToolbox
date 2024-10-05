@@ -9,16 +9,16 @@ import org.rhm.tinkerers_toolbox.ModMain;
 
 public class ModComponents {
     public static final ComponentType<String> SHAFT_COMPONENT = register(
-            "shaft",
-            ComponentType.<String>builder().codec(Codec.STRING).build()
+        "shaft",
+        ComponentType.<String>builder().codec(Codec.STRING).build()
     );
     public static final ComponentType<String> BINDING_COMPONENT = register(
-            "binding",
-            ComponentType.<String>builder().codec(Codec.STRING).build()
+        "binding",
+        ComponentType.<String>builder().codec(Codec.STRING).build()
     );
     public static final ComponentType<String> HEAD_COMPONENT = register(
-            "head",
-            ComponentType.<String>builder().codec(Codec.STRING).build()
+        "head",
+        ComponentType.<String>builder().codec(Codec.STRING).build()
     );
 
     public static <T extends ComponentType<?>> T register(String name, T component) {

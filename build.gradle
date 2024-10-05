@@ -1,98 +1,109 @@
 plugins {
     id 'fabric-loom' version '1.7-SNAPSHOT'
-	id "com.modrinth.minotaur" version "2.+"
+    id "com.modrinth.minotaur" version "2.+"
 }
 
 version = project.mod_version
+processResources {
+    inputs.property "mod_id", project.mod_id
+    inputs.property "mod_version", project.version
+    inputs.property "loader_version", project.loader_version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "fabric_version", project.fabric_version
+
+    filesMatching("fabric.mod.json") {
+        expand "mod_id": project.mod_id,
+            "mod_version": project.version,
+            "loader_version": project.loader_version,
+            "minecraft_version": project.minecraft_version,
+            "fabric_version": project.fabric_version
+    }
+}
+
 group = project.maven_group
 
 base {
-	archivesName = project.archives_base_name
+    archivesName = project.archives_base_name
 }
 
 loom {
-	splitEnvironmentSourceSets()
+    splitEnvironmentSourceSets()
 
-	mods {
-		"${mod_id}" {
-			sourceSet sourceSets.main
-			sourceSet sourceSets.client
-		}
-	}
+    mods {
+        "${project.mod_id}" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
 
 }
 
 fabricApi {
-	configureDataGeneration()
+    configureDataGeneration()
 }
 
 repositories {
-	maven {
-		name = "Jared's maven" //JEI
-		url = "https://maven.blamejared.com/"
-	}
-	maven {
-		name = "ModMaven" // JEI Fallback
-		url = "https://modmaven.dev"
-	}
-	maven {
-		name = "CurseMaven" // Jade
-		url "https://www.cursemaven.com"
-		content {
-			includeGroup "curse.maven"
-		}
-	}
+    maven {
+        name = "Jared's maven" //JEI
+        url = "https://maven.blamejared.com/"
+    }
+    maven {
+        name = "ModMaven" // JEI Fallback
+        url = "https://modmaven.dev"
+    }
+    maven {
+        name = "CurseMaven" // Jade
+        url "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	//Fabric API
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    //Fabric API
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	//JEI
-	modCompileOnlyApi("mezz.jei:jei-${project.minecraft_version}-fabric-api:${project.jei_version}")
-	modRuntimeOnly("mezz.jei:jei-${project.minecraft_version}-fabric:${project.jei_version}")
+    //JEI
+    modCompileOnlyApi("mezz.jei:jei-${project.minecraft_version}-fabric-api:${project.jei_version}")
+    modRuntimeOnly("mezz.jei:jei-${project.minecraft_version}-fabric:${project.jei_version}")
 
-	//Jade
-	modImplementation "curse.maven:jade-324717:${project.jade_version}"
-}
-
-processResources {
-	inputs.property "version", project.version
-
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
-	}
+    //Jade
+    modImplementation "curse.maven:jade-324717:${project.jade_version}"
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+    it.options.release = 21
 }
 
 java {
-	withSourcesJar()
+    withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
+tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
 modrinth {
-	token = System.getenv("MODRINTH_TOKEN")
-	projectId = "${mod_id}"
-	versionType = "alpha"
-	uploadFile = remapJar
-	gameVersions = ["1.21.1"]
-	version = "${mod_version}"
-	dependencies {
-		required.version "fabric-api", "${fabric_version}"
-	}
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = "${mod_id}"
+    versionType = "alpha"
+    uploadFile = remapJar
+    gameVersions = ["1.21.1"]
+    dependencies {
+        required.version "fabric-api", "${fabric_version}"
+        optional.project "jade"
+        optional.project "jei"
+    }
+    syncBodyFrom = rootProject.file("README.md").text
 }
 
 jar {
-	from("LICENSE") {
-		rename { "${it}_${project.base.archivesName.get()}"}
-	}
+    from("LICENSE") {
+        rename { "${it}_${project.base.archivesName.get()}" }
+    }
 }

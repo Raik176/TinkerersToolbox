@@ -16,8 +16,8 @@ public class ModScreens {
     }
 
     public static final ScreenHandlerType<TinkerersBenchScreenHandler> TINKERERS_BENCH = register(
-            new ScreenHandlerType<>(TinkerersBenchScreenHandler::new, FeatureFlags.VANILLA_FEATURES),
-            "tinkerers_bench"
+        new ScreenHandlerType<>(TinkerersBenchScreenHandler::new, FeatureFlags.VANILLA_FEATURES),
+        "tinkerers_bench"
     );
 
 

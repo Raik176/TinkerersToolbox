@@ -47,7 +47,7 @@ public class TinkerersBenchScreenHandler extends ScreenHandler {
             @Override
             public boolean canInsert(ItemStack stack) {
                 return stack.getItem() instanceof ToolItem;
-                //return stack.streamTags().anyMatch((tag) -> tag.id().getPath().equals("tools"));
+                // return stack.streamTags().anyMatch((tag) -> tag.id().getPath().equals("tools"));
             }
         };
         patternSlot = new Slot(inventory, 2, 46, 50) {
@@ -147,7 +147,7 @@ public class TinkerersBenchScreenHandler extends ScreenHandler {
                     ItemStack tool = toolSlot.getStack();
                     ItemStack result = tool.copy();
 
-                    //TODO: implement
+                    // TODO: implement
 
                     outputSlot.setStack(result);
                 }

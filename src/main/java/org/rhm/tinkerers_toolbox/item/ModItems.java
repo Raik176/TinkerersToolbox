@@ -16,8 +16,8 @@ public class ModItems {
     private static List<Item> modItems = new ArrayList<>();
 
     public static final Item SHAFT_PATTERN = register(
-            new PatternItem(new Item.Settings()),
-            "shaft_pattern"
+        new PatternItem(new Item.Settings()),
+        "shaft_pattern"
     );
 
     public static List<Item> getItems() {
@@ -32,6 +32,6 @@ public class ModItems {
     public static void initialize() { // Im lazy
         modItems = Collections.unmodifiableList(modItems.reversed());
         ItemGroupEvents.modifyEntriesEvent(ModMain.ITEM_GROUP_KEY).register(itemGroup ->
-                itemGroup.addAll(modItems.stream().map(Item::getDefaultStack).collect(Collectors.toList())));
+            itemGroup.addAll(modItems.stream().map(Item::getDefaultStack).collect(Collectors.toList())));
     }
 }

@@ -17,18 +17,18 @@ public class TinkerersBenchScreen extends HandledScreen<TinkerersBenchScreenHand
     private static final Identifier RECYCLE_TEXTURE = Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_recycle");
     private static final Identifier PATTERN_TEXTURE = Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_pattern");
     private static final Identifier[] TOOL_CAROUSEL = new Identifier[]{
-            Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_sword"),
-            Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_pickaxe"),
-            Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_axe"),
-            Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_shovel"),
-            Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_hoe"),
+        Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_sword"),
+        Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_pickaxe"),
+        Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_axe"),
+        Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_shovel"),
+        Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_hoe"),
     };
     private static final Identifier[] MINERAL_CAROUSEL = new Identifier[]{
-            Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_diamond"),
-            Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_emerald"),
-            Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_ingot"),
-            Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_quartz"),
-            Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_redstone_dust"),
+        Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_diamond"),
+        Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_emerald"),
+        Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_ingot"),
+        Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_quartz"),
+        Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_redstone_dust"),
     };
     private int tool_carousel_index = 0;
     private float tool_carousel_timer = 0;
