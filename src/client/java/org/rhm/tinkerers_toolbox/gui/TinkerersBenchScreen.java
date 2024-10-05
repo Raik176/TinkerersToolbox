@@ -13,17 +13,17 @@ public class TinkerersBenchScreen extends HandledScreen<TinkerersBenchScreenHand
     public static final String MINERAL_PLACEHOLDER_KEY = ModMain.MOD_ID + ".gui.mineral_placeholder";
     public static final String PATTERN_PLACEHOLDER_KEY = ModMain.MOD_ID + ".gui.pattern_placeholder";
 
-    private static final Identifier TEXTURE = Identifier.of(ModMain.MOD_ID, "textures/gui/tinkerers_bench_gui.png");
-    private static final Identifier RECYCLE_TEXTURE = Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_recycle");
-    private static final Identifier PATTERN_TEXTURE = Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_pattern");
-    private static final Identifier[] TOOL_CAROUSEL = new Identifier[]{
+    public static final Identifier TEXTURE = Identifier.of(ModMain.MOD_ID, "textures/gui/tinkerers_bench_gui.png");
+    public static final Identifier RECYCLE_TEXTURE = Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_recycle");
+    public static final Identifier PATTERN_TEXTURE = Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_pattern");
+    public static final Identifier[] TOOL_CAROUSEL = new Identifier[]{
         Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_sword"),
         Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_pickaxe"),
         Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_axe"),
         Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_shovel"),
         Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_hoe"),
     };
-    private static final Identifier[] MINERAL_CAROUSEL = new Identifier[]{
+    public static final Identifier[] MINERAL_CAROUSEL = new Identifier[]{
         Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_diamond"),
         Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_emerald"),
         Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_ingot"),

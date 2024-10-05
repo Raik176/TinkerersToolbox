@@ -16,6 +16,7 @@ import org.rhm.tinkerers_toolbox.block.entity.ModBlockEntities;
 import org.rhm.tinkerers_toolbox.components.ModComponents;
 import org.rhm.tinkerers_toolbox.gui.ModScreens;
 import org.rhm.tinkerers_toolbox.item.ModItems;
+import org.rhm.tinkerers_toolbox.recipe.ModRecipeTypes;
 
 public class ModMain implements ModInitializer {
     public static final String MOD_ID = "tinkerers_toolbox";
@@ -35,5 +36,6 @@ public class ModMain implements ModInitializer {
         ModScreens.initialize();
         ModComponents.initialize();
         ModItems.initialize();
+        ModRecipeTypes.initialize();
     }
 }

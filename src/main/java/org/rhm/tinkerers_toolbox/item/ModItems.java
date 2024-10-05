@@ -19,6 +19,14 @@ public class ModItems {
         new PatternItem(new Item.Settings()),
         "shaft_pattern"
     );
+    public static final Item BINDING_PATTERN = register(
+        new PatternItem(new Item.Settings()),
+        "binding_pattern"
+    );
+    public static final Item HEAD_PATTERN = register(
+        new PatternItem(new Item.Settings()),
+        "head_pattern"
+    );
 
     public static List<Item> getItems() {
         return modItems;

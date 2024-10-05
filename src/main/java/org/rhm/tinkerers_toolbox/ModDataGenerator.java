@@ -64,9 +64,11 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
 
                 builder.add(ModMain.MOD_ID + ".itemGroup", "Tinkerer's Toolbox");
 
-                builder.add(ModMain.MOD_ID + ".gui.tool_placeholder", "Any Tool");
-                builder.add(ModMain.MOD_ID + ".gui.mineral_placeholder", "Any Mineral");
-                builder.add(ModMain.MOD_ID + ".gui.pattern_placeholder", "Any Pattern");
+                builder.add(ModMain.MOD_ID + ".gui.tool_placeholder", "Add tool");
+                builder.add(ModMain.MOD_ID + ".gui.mineral_placeholder", "Add mineral");
+                builder.add(ModMain.MOD_ID + ".gui.pattern_placeholder", "Add pattern");
+
+                builder.add(ModMain.MOD_ID + ".recipe_type", "Tinkering");
             }
         });
     }
