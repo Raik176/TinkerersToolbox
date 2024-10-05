@@ -11,9 +11,11 @@ import org.rhm.tinkerers_toolbox.ModMain;
 public class TinkerersBenchScreen extends HandledScreen<TinkerersBenchScreenHandler> {
     public static final String TOOL_PLACEHOLDER_KEY = ModMain.MOD_ID + ".gui.tool_placeholder";
     public static final String MINERAL_PLACEHOLDER_KEY = ModMain.MOD_ID + ".gui.mineral_placeholder";
+    public static final String PATTERN_PLACEHOLDER_KEY = ModMain.MOD_ID + ".gui.pattern_placeholder";
 
     private static final Identifier TEXTURE = Identifier.of(ModMain.MOD_ID, "textures/gui/tinkerers_bench_gui.png");
     private static final Identifier RECYCLE_TEXTURE = Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_recycle");
+    private static final Identifier PATTERN_TEXTURE = Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_pattern");
     private static final Identifier[] TOOL_CAROUSEL = new Identifier[]{
             Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_sword"),
             Identifier.of(ModMain.MOD_ID, "container/tinkerers_bench/empty_slot_pickaxe"),
@@ -45,6 +47,7 @@ public class TinkerersBenchScreen extends HandledScreen<TinkerersBenchScreenHand
         Slot toolSlot = handler.getToolSlot();
         Slot mineralSlot = handler.getMineralSlot();
         Slot recycleSlot = handler.getRecycleSlot();
+        Slot patternSlot = handler.getPatternSlot();
         if (!toolSlot.hasStack()) {
             context.drawGuiTexture(TOOL_CAROUSEL[tool_carousel_index], x + toolSlot.x, y + toolSlot.y, 16, 16);
 
@@ -70,6 +73,10 @@ public class TinkerersBenchScreen extends HandledScreen<TinkerersBenchScreenHand
         if (!recycleSlot.hasStack()) {
             context.drawGuiTexture(RECYCLE_TEXTURE, x + recycleSlot.x, y + recycleSlot.y, 16, 16);
         }
+
+        if (!patternSlot.hasStack()) {
+            context.drawGuiTexture(PATTERN_TEXTURE, x + patternSlot.x, y + patternSlot.y, 16, 16);
+        }
     }
 
     @Override
@@ -80,6 +87,8 @@ public class TinkerersBenchScreen extends HandledScreen<TinkerersBenchScreenHand
                 context.drawTooltip(this.textRenderer, Text.translatable(TOOL_PLACEHOLDER_KEY), x, y);
             } else if (this.focusedSlot == handler.getMineralSlot()) {
                 context.drawTooltip(this.textRenderer, Text.translatable(MINERAL_PLACEHOLDER_KEY), x, y);
+            } else if (this.focusedSlot == handler.getPatternSlot()) {
+                context.drawTooltip(this.textRenderer, Text.translatable(PATTERN_PLACEHOLDER_KEY), x, y);
             }
         }
     }

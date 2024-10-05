@@ -3,12 +3,12 @@ package org.rhm.tinkerers_toolbox;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.NotNull;
 
 @JeiPlugin
 public class ModJEIPlugin implements IModPlugin {
-
     @Override
-    public Identifier getPluginUid() {
-        return Identifier.of("jei", ModMain.MOD_ID); //idk the naming convention, i hope this is valid
+    public @NotNull Identifier getPluginUid() {
+        return Identifier.of(ModMain.MOD_ID,"jei_plugin");
     }
 }

@@ -8,7 +8,6 @@ public class PatternItem extends Item {
     public PatternItem(Settings settings) {
         super(settings
                 .maxCount(1) // ik im lazy
-                .rarity(Rarity.UNCOMMON)
         );
     }
 }

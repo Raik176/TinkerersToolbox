@@ -6,8 +6,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.data.client.BlockStateModelGenerator;
-import net.minecraft.data.client.ItemModelGenerator;
+import net.minecraft.data.client.*;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.Item;
@@ -49,12 +48,19 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
             @Override
             public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder builder) {
                 super.generateTranslations(wrapperLookup, builder);
+
                 builder.add(ModBlocks.TINKERERS_BENCH, "Tinkerer's Bench");
+
+                builder.add(ModItems.SHAFT_PATTERN, "Shaft Pattern");
+
                 builder.add(ItemTagProvider.MINERAL_TAG, "Mineral");
                 builder.add(ItemTagProvider.PATTERN_TAG, "Tinker Pattern");
-                builder.add(ModMain.MOD_ID + ".itemGroup", "Tinker's Toolbox");
+
+                builder.add(ModMain.MOD_ID + ".itemGroup", "Tinkerer's Toolbox");
+
                 builder.add(ModMain.MOD_ID + ".gui.tool_placeholder", "Any Tool");
                 builder.add(ModMain.MOD_ID + ".gui.mineral_placeholder", "Any Mineral");
+                builder.add(ModMain.MOD_ID + ".gui.pattern_placeholder", "Any Pattern");
             }
         });
     }
@@ -129,7 +135,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
                     .addOptionalTag(ItemTags.TRIM_MATERIALS)
                     .add(Items.COPPER_INGOT);
             getOrCreateTagBuilder(PATTERN_TAG)
-                    .add(ModItems.TEST_TEMPLATE);
+                    .add(ModItems.SHAFT_PATTERN);
         }
     }
 
@@ -140,12 +146,14 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
 
         @Override
         public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-            blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.TINKERERS_BENCH);
+           //blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.TINKERERS_BENCH);
         }
 
         @Override
         public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-
+            ModItems.getItems() // im lazy yet again
+                    .stream().filter(i -> i instanceof PatternItem)
+                    .forEach(i -> itemModelGenerator.register(i, Models.GENERATED));
         }
     }
 
