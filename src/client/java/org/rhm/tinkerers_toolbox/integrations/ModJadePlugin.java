@@ -1,4 +1,4 @@
-package org.rhm.tinkerers_toolbox;
+package org.rhm.tinkerers_toolbox.integrations;
 
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaCommonRegistration;

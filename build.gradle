@@ -91,6 +91,8 @@ tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = "${mod_id}"
+    versionName = "Tinkerer's Toolbox ${project.mod_version} Fabric"
+    versionNumber = "${project.mod_version}-fabric"
     versionType = "alpha"
     uploadFile = remapJar
     gameVersions = ["1.21.1"]

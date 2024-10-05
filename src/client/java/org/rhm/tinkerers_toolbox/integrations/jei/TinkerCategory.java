@@ -1,4 +1,4 @@
-package org.rhm.tinkerers_toolbox.jei;
+package org.rhm.tinkerers_toolbox.integrations.jei;
 
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;

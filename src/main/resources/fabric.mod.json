@@ -25,7 +25,7 @@
       "org.rhm.tinkerers_toolbox.ModDataGenerator"
     ],
     "jade": [
-      "org.rhm.tinkerers_toolbox.ModJadePlugin"
+      "org.rhm.tinkerers_toolbox.integrations.ModJadePlugin"
     ]
   },
   "mixins": [
