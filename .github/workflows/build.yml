@@ -28,8 +28,8 @@ jobs:
                 with:
                     name: Artifacts
                     path: build/libs/
-            - uses: Shopify/upload-to-release@v2.0.0
+            - uses: d1ceward/draft-assets-release-action@v2
               with:
-                  name: latest
-                  path: build/libs/*.jar
-                  repo-token: ${{ secrets.GITHUB_TOKEN }}
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  files: |
+                      build/libs/*.jar
