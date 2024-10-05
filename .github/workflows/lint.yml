@@ -10,6 +10,6 @@ jobs:
                 ]
         runs-on: ubuntu-22.04
         steps:
-            -   uses: wow-rp-addons/actions-editorconfig-check@v1
+            -   uses: wow-rp-addons/actions-editorconfig-check@v1.0.2
                 with:
                     files: $(git ls-files)
