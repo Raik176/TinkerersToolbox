@@ -38,6 +38,7 @@ jobs:
                 with:
                     artifacts: build/libs/*.jar
                     prerelease: true
+                    replaceArtifacts: true
                     name: "dev.${{ steps.build_num.outputs.build_num }}"
                     tag: dev
                     body: "Latest dev build. might be unstable, buggy or simply unfunctional."
