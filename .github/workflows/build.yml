@@ -34,5 +34,5 @@ jobs:
                 with:
                     artifacts: build/libs/*.jar
                     prerelease: true
-                    name: dev.${{ git rev-parse --short HEAD }}
+                    name: dev.$(git rev-parse --short HEAD)
                     body: "Latest dev build. might be unstable, buggy or simply unfunctional."
