@@ -30,10 +30,16 @@ jobs:
                 with:
                     name: Artifacts
                     path: build/libs/
+            -   name: get build number
+                id: build_num
+                run: |
+                    BUILD_NUM=$(git rev-parse --short HEAD)
+                    echo "Build Number: $BUILD_NUM"
+                    echo "::set-output name=build_num::$BUILD_NUM"
             -   uses: ncipollo/release-action@v1
                 with:
                     artifacts: build/libs/*.jar
                     prerelease: true
-                    name: dev.$(git rev-parse --short HEAD)
+                    name: "dev.${{ steps.get_build_num.outputs.build_num }}"
                     tag: dev
                     body: "Latest dev build. might be unstable, buggy or simply unfunctional."
