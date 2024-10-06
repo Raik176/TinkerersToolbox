@@ -35,4 +35,5 @@ jobs:
                     artifacts: build/libs/*.jar
                     prerelease: true
                     name: dev.$(git rev-parse --short HEAD)
+                    tag: dev
                     body: "Latest dev build. might be unstable, buggy or simply unfunctional."
