@@ -6,24 +6,13 @@ build/
 out/
 classes/
 
-# eclipse
-
-*.launch
-
 # idea
 
-.idea/
+.idea/*
+!.idea/runConfigurations/
 *.iml
 *.ipr
 *.iws
-
-# vscode
-
-.settings/
-.vscode/
-bin/
-.classpath
-.project
 
 # macos
 
@@ -40,3 +29,6 @@ hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
+
+# misc
+.env
