@@ -21,7 +21,7 @@ classes/
 # fabric
 
 run/
-src/main/generated/*
+fabric/src/main/generated/*
 
 # java
 
