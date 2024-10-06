@@ -44,5 +44,14 @@
   "suggests": {
     "jei": "*",
     "jade": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/Q5HrZDkf3v",
+        "modmenu.modrinth": "https://modrinth.com/mod/tinkerers_toolbox",
+        "modmenu.github_releases": "https://github.com/Raik176/TinkerersToolbox/releases"
+      }
+    }
   }
 }

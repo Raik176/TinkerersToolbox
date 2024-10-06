@@ -4,16 +4,41 @@ plugins {
 }
 
 version = project.mod_version
+
+tasks.register('buildInfo') {
+    try {
+        def proc = "git rev-parse --short HEAD".execute()
+        proc.waitFor()
+        if (proc.exitValue() == 0) {
+            ext.rev = proc.text.trim()
+        } else {
+            throw new Exception("lolz")
+        }
+    } catch (ignored) {
+        ext.rev = "N/A"
+    }
+
+    def build_env = System.getenv("BUILD_NUMBER")
+    if (build_env != null) {
+        ext.buildNum = build_env
+    } else {
+        ext.buildNum = "dev.${ext.rev}"
+    }
+}
+def artifact_version = "${mod_version}.${project.buildInfo.buildNum}"
+version = "${project.minecraft_version}-${artifact_version}"
+println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Version: ${version}"
+
 processResources {
     inputs.property "mod_id", project.mod_id
-    inputs.property "mod_version", project.version
+    inputs.property "mod_version", version
     inputs.property "loader_version", project.loader_version
     inputs.property "minecraft_version", project.minecraft_version
     inputs.property "fabric_version", project.fabric_version
 
     filesMatching("fabric.mod.json") {
         expand "mod_id": project.mod_id,
-            "mod_version": project.version,
+            "mod_version": version,
             "loader_version": project.loader_version,
             "minecraft_version": project.minecraft_version,
             "fabric_version": project.fabric_version
@@ -81,6 +106,9 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
     withSourcesJar()
 
     sourceCompatibility = JavaVersion.VERSION_21
@@ -92,10 +120,11 @@ modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = "${mod_id}"
     versionName = "Tinkerer's Toolbox ${project.mod_version} Fabric"
-    versionNumber = "${project.mod_version}-fabric"
+    versionNumber = "${version}-fabric"
     versionType = "alpha"
     uploadFile = remapJar
     gameVersions = ["1.21.1"]
+    loaders = ["fabric", "quilt"]
     dependencies {
         required.version "fabric-api", "${fabric_version}"
         optional.project "jade"
